@@ -1,0 +1,68 @@
+<div class="form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Add New Recipe</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Recipe Title</mat-label>
+          <input matInput formControlName="title" placeholder="Enter recipe title" required>
+          <mat-error *ngIf="recipeForm.get('title')?.hasError('required')">
+            Title is required
+          </mat-error>
+          <mat-error *ngIf="recipeForm.get('title')?.hasError('minlength')">
+            Title must be at least 3 characters long
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Ingredients (one per line)</mat-label>
+          <textarea 
+            matInput 
+            formControlName="ingredients" 
+            placeholder="Enter ingredients, one per line"
+            rows="5"
+            required>
+          </textarea>
+          <mat-error *ngIf="recipeForm.get('ingredients')?.hasError('required')">
+            At least one ingredient is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Instructions</mat-label>
+          <textarea 
+            matInput 
+            formControlName="instructions" 
+            placeholder="Enter cooking instructions"
+            rows="8"
+            required>
+          </textarea>
+          <mat-error *ngIf="recipeForm.get('instructions')?.hasError('required')">
+            Instructions are required
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button 
+            mat-button 
+            type="button" 
+            (click)="onCancel()"
+            [disabled]="loading">
+            Cancel
+          </button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            [disabled]="recipeForm.invalid || loading">
+            <span *ngIf="!loading">Save Recipe</span>
+            <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
